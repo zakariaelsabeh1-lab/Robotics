@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF6F00</color>
+    <color name="colorPrimaryDark">#E65100</color>
+    <color name="colorSecondary">#29B6F6</color>
+    <color name="colorBackground">#0D0D2B</color>
+    <color name="colorSurface">#1A1A3E</color>
+    <color name="colorCard">#212145</color>
+    <color name="colorCardBorder">#3A3A6E</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorTextSecondary">#B0B8D4</color>
+    <color name="colorSuccess">#00E676</color>
+    <color name="colorDanger">#FF1744</color>
+    <color name="gold">#FFD700</color>
+    <color name="robotFire">#FF4500</color>
+    <color name="robotThunder">#1E90FF</color>
+    <color name="robotCrusher">#4CAF50</color>
+    <color name="robotSpark">#8A2BE2</color>
+    <color name="robotRocket">#78909C</color>
+    <color name="robotNova">#FF69B4</color>
+    <color name="btnPrimary">#FF6F00</color>
+    <color name="btnSecondary">#1565C0</color>
+    <color name="transparent">#00000000</color>
+</resources>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_menu"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="←"
+                android:textSize="20sp"
+                android:textColor="@color/colorText"
+                style="?attr/borderlessButtonStyle"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🎨 Paint Your Robot!"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/gold"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPreview"
+            style="@style/CardGame"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <com.zakariaelsabeh.robofight.ui.views.RobotIconView
+                    android:id="@+id/ivPreviewRobot"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"/>
+
+                <TextView
+                    android:id="@+id/tvRobotName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/gold"/>
+
+                <TextView
+                    android:id="@+id/tvSpecialPower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorSecondary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvColorLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHOOSE COLOR:"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextSecondary"
+            android:textAllCaps="true"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="20dp"/>
+
+        <GridLayout
+            android:id="@+id/gridColors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="5"
+            android:layout_marginTop="12dp">
+
+            <View android:id="@+id/color1" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color2" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color3" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color4" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color5" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color6" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color7" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color8" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color9" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+            <View android:id="@+id/color10" android:layout_width="52dp" android:layout_height="52dp"
+                android:layout_margin="6dp" android:background="@drawable/card_dark"/>
+
+        </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/btnReset"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Reset"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextSecondary"
+                android:background="@drawable/card_dark"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="2"
+                android:text="CONFIRM! ✅"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:background="@drawable/btn_battle_bg"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

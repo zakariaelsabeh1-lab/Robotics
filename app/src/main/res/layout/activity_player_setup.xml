@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_menu"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Who Are You? 🤖"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:textColor="@color/gold"
+            android:shadowColor="#FF6F00"
+            android:shadowDx="0" android:shadowDy="2" android:shadowRadius="8"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tell me your hero name!"
+            android:textSize="20sp"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tvNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YOUR NAME:"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextSecondary"
+            android:textAllCaps="true"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="36dp"
+            android:alignmentMode="gravity"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Your hero name…">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPlayerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textColor="@color/colorText"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLength="16"
+                android:imeOptions="actionDone"
+                android:gravity="center"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvSuggestLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Or choose a cool name:"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:id="@+id/llChips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/chip1"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="RoboKing"
+                android:textSize="14sp"
+                android:background="@drawable/card_dark"
+                android:textColor="@color/gold"
+                android:layout_margin="4dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
+
+            <Button
+                android:id="@+id/chip2"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="IronHero"
+                android:textSize="14sp"
+                android:background="@drawable/card_dark"
+                android:textColor="@color/colorSecondary"
+                android:layout_margin="4dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
+
+            <Button
+                android:id="@+id/chip3"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="BlazeBot"
+                android:textSize="14sp"
+                android:background="@drawable/card_dark"
+                android:textColor="@color/robotFire"
+                android:layout_margin="4dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
+
+            <Button
+                android:id="@+id/chip4"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="StarFighter"
+                android:textSize="14sp"
+                android:background="@drawable/card_dark"
+                android:textColor="@color/robotNova"
+                android:layout_margin="4dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="LET'S GO! ⚡"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorText"
+            android:background="@drawable/btn_battle_bg"
+            android:layout_marginTop="32dp"
+            android:enabled="false"/>
+
+    </LinearLayout>
+</ScrollView>
