@@ -43,8 +43,7 @@
             android:textColor="@color/colorTextSecondary"
             android:textAllCaps="true"
             android:letterSpacing="0.1"
-            android:layout_marginTop="36dp"
-            android:alignmentMode="gravity"/>
+            android:layout_marginTop="36dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
