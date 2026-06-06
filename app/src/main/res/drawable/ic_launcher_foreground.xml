@@ -4,25 +4,47 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+
     <!-- Robot head -->
     <path android:fillColor="#FFD700"
         android:pathData="M30,35 L78,35 Q82,35 82,40 L82,68 Q82,72 78,72 L30,72 Q26,72 26,68 L26,40 Q26,35 30,35 Z"/>
+
     <!-- Visor -->
     <path android:fillColor="#1A0A2E"
         android:pathData="M33,42 L75,42 Q78,42 78,46 L78,62 Q78,65 75,65 L33,65 Q30,65 30,62 L30,46 Q30,42 33,42 Z"/>
-    <!-- Eyes -->
-    <circle android:fillColor="#FF4500" android:cx="42" android:cy="54" android:r="6"/>
-    <circle android:fillColor="#FF4500" android:cx="66" android:cy="54" android:r="6"/>
-    <circle android:fillColor="#FFFFFF" android:cx="44" android:cy="52" android:r="2.5"/>
-    <circle android:fillColor="#FFFFFF" android:cx="68" android:cy="52" android:r="2.5"/>
-    <!-- Antenna -->
-    <path android:fillColor="#FFD700" android:strokeColor="#FFD700" android:strokeWidth="3"
+
+    <!-- Left eye (circle as path) -->
+    <path android:fillColor="#FF4500"
+        android:pathData="M36,54 A6,6 0 1,0 48,54 A6,6 0 1,0 36,54 Z"/>
+
+    <!-- Right eye (circle as path) -->
+    <path android:fillColor="#FF4500"
+        android:pathData="M60,54 A6,6 0 1,0 72,54 A6,6 0 1,0 60,54 Z"/>
+
+    <!-- Left eye shine -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M41.5,52 A2.5,2.5 0 1,0 46.5,52 A2.5,2.5 0 1,0 41.5,52 Z"/>
+
+    <!-- Right eye shine -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M65.5,52 A2.5,2.5 0 1,0 70.5,52 A2.5,2.5 0 1,0 65.5,52 Z"/>
+
+    <!-- Antenna stem -->
+    <path android:fillColor="#FFD700"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="3"
         android:pathData="M54,35 L54,22"/>
-    <circle android:fillColor="#FF4500" android:cx="54" android:cy="19" android:r="5"/>
+
+    <!-- Antenna tip (circle as path) -->
+    <path android:fillColor="#FF4500"
+        android:pathData="M49,19 A5,5 0 1,0 59,19 A5,5 0 1,0 49,19 Z"/>
+
     <!-- Body -->
     <path android:fillColor="#FF8F00"
         android:pathData="M34,72 L74,72 L74,90 L34,90 Z"/>
-    <!-- Chest badge -->
+
+    <!-- Star badge on chest -->
     <path android:fillColor="#FFD700"
-        android:pathData="M54,74 L58,82 L66,82 L60,87 L62,95 L54,90 L46,95 L48,87 L42,82 L50,82 Z"/>
+        android:pathData="M54,74 L56,80 L62,80 L57,84 L59,90 L54,86 L49,90 L51,84 L46,80 L52,80 Z"/>
+
 </vector>
