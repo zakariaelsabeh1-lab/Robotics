@@ -21,10 +21,10 @@ class PreferenceManager(context: Context) {
             putInt("battles_won", profile.battlesWon)
             putInt("battles_lost", profile.battlesLost)
             putInt("equipped_weapon", profile.equippedWeaponId)
-            putString("unlocked_robots", profile.unlockedRobotIds.toJsonArray())
-            putString("crafted_weapons", profile.craftedWeaponIds.toJsonArray())
-            putString("collected_treasures", profile.collectedTreasureIds.toJsonArray())
-            putString("inventory_parts", profile.inventoryParts.toJsonArray())
+            putString("unlocked_robots", intListToJson(profile.unlockedRobotIds))
+            putString("crafted_weapons", intListToJson(profile.craftedWeaponIds))
+            putString("collected_treasures", intListToJson(profile.collectedTreasureIds))
+            putString("inventory_parts", stringListToJson(profile.inventoryParts))
             apply()
         }
     }
@@ -59,8 +59,8 @@ class PreferenceManager(context: Context) {
     fun saveSoundEnabled(enabled: Boolean) = prefs.edit().putBoolean("sound", enabled).apply()
     fun isSoundEnabled(): Boolean = prefs.getBoolean("sound", true)
 
-    private fun List<Int>.toJsonArray(): String = JSONArray(this).toString()
-    private fun List<String>.toJsonArray(): String = JSONArray(this).toString()
+    private fun intListToJson(list: List<Int>): String = JSONArray(list).toString()
+    private fun stringListToJson(list: List<String>): String = JSONArray(list).toString()
 
     private fun String.fromJsonArrayInt(): MutableList<Int> {
         if (isBlank()) return mutableListOf(0, 1)
