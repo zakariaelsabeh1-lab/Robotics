@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF6F00</color>
-    <color name="colorPrimaryDark">#E65100</color>
-    <color name="colorSecondary">#29B6F6</color>
-    <color name="colorBackground">#0D0D2B</color>
-    <color name="colorSurface">#1A1A3E</color>
-    <color name="colorCard">#212145</color>
-    <color name="colorCardBorder">#3A3A6E</color>
+    <!-- Core palette -->
+    <color name="colorPrimary">#FF4500</color>
+    <color name="colorPrimaryDark">#CC2200</color>
+    <color name="colorSecondary">#00D4FF</color>
+    <color name="colorBackground">#080810</color>
+    <color name="colorSurface">#0F0F1E</color>
+    <color name="colorCard">#12122A</color>
+    <color name="colorCardBorder">#2A2A5A</color>
     <color name="colorText">#FFFFFF</color>
-    <color name="colorTextSecondary">#B0B8D4</color>
-    <color name="colorSuccess">#00E676</color>
+    <color name="colorTextSecondary">#8899BB</color>
+    <color name="colorSuccess">#00FF88</color>
     <color name="colorDanger">#FF1744</color>
     <color name="gold">#FFD700</color>
+    <color name="neonOrange">#FF6600</color>
+    <color name="neonBlue">#00D4FF</color>
+    <color name="neonGreen">#00FF88</color>
+    <color name="neonPurple">#CC00FF</color>
+    <color name="neonRed">#FF0033</color>
+    <!-- Robot colors -->
     <color name="robotFire">#FF4500</color>
-    <color name="robotThunder">#1E90FF</color>
-    <color name="robotCrusher">#4CAF50</color>
-    <color name="robotSpark">#8A2BE2</color>
-    <color name="robotRocket">#78909C</color>
-    <color name="robotNova">#FF69B4</color>
-    <color name="btnPrimary">#FF6F00</color>
-    <color name="btnSecondary">#1565C0</color>
+    <color name="robotThunder">#00BFFF</color>
+    <color name="robotCrusher">#44FF66</color>
+    <color name="robotSpark">#CC00FF</color>
+    <color name="robotRocket">#AABBCC</color>
+    <color name="robotNova">#FF44AA</color>
+    <!-- UI -->
+    <color name="btnPrimary">#FF4500</color>
+    <color name="btnSecondary">#0066CC</color>
     <color name="transparent">#00000000</color>
+    <color name="scrim">#CC000000</color>
 </resources>

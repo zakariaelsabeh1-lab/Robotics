@@ -11,17 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:gravity="center_vertical"
         android:background="@color/colorSurface">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="⚔️ BATTLE"
-            android:textSize="20sp"
+            android:text="FIGHT"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/colorDanger"/>
+            android:textColor="@color/colorDanger"
+            android:letterSpacing="0.15"/>
 
         <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
 
@@ -29,7 +33,7 @@
             android:id="@+id/tvTurn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/gold"
             android:textStyle="bold"/>
 
@@ -46,32 +50,62 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <!-- Damage numbers -->
+        <!-- Player damage number -->
         <TextView
             android:id="@+id/tvPlayerDamage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="36sp"
+            android:textSize="38sp"
             android:textStyle="bold"
             android:textColor="@color/colorDanger"
             android:shadowColor="#000000"
-            android:shadowDx="2" android:shadowDy="2" android:shadowRadius="4"
+            android:shadowDx="2" android:shadowDy="2" android:shadowRadius="6"
             android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             android:visibility="invisible"/>
 
+        <!-- Enemy damage number -->
         <TextView
             android:id="@+id/tvEnemyDamage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="36sp"
+            android:textSize="38sp"
             android:textStyle="bold"
             android:textColor="@color/colorDanger"
             android:shadowColor="#000000"
-            android:shadowDx="2" android:shadowDy="2" android:shadowRadius="4"
+            android:shadowDx="2" android:shadowDy="2" android:shadowRadius="6"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="30dp"
             android:visibility="invisible"/>
+
+        <!-- COMBO counter (bottom-left) -->
+        <TextView
+            android:id="@+id/tvCombo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/gold"
+            android:shadowColor="#FF6F00"
+            android:shadowDx="0" android:shadowDy="0" android:shadowRadius="10"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"/>
+
+        <!-- CRITICAL pop-up (center) -->
+        <TextView
+            android:id="@+id/tvCritical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CRITICAL!"
+            android:textSize="44sp"
+            android:textStyle="bold"
+            android:textColor="@color/neonRed"
+            android:shadowColor="#FF0000"
+            android:shadowDx="0" android:shadowDy="0" android:shadowRadius="16"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
     </FrameLayout>
 
@@ -80,16 +114,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:padding="10dp"
         android:background="@color/colorSurface">
 
         <Button
             android:id="@+id/btnAttack"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="68dp"
             android:layout_weight="2"
-            android:text="⚔️\nATTACK!"
-            android:textSize="16sp"
+            android:text="ATTACK"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
             android:background="@drawable/btn_battle_bg"
@@ -98,10 +132,10 @@
         <Button
             android:id="@+id/btnSpecial"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="68dp"
             android:layout_weight="2"
-            android:text="⚡\nSPECIAL!"
-            android:textSize="16sp"
+            android:text="SPECIAL!"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
             android:background="@drawable/btn_special_bg"
@@ -110,10 +144,10 @@
         <Button
             android:id="@+id/btnBlock"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="68dp"
             android:layout_weight="1.5"
-            android:text="🛡️\nBLOCK"
-            android:textSize="15sp"
+            android:text="BLOCK"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
             android:background="@drawable/btn_block_bg"/>

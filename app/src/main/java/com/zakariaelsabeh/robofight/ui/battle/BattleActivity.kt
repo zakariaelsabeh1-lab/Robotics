@@ -30,6 +30,9 @@ class BattleActivity : AppCompatActivity() {
     private var isAnimating = false
     private var levelId = 1
 
+    private var comboCount = 0
+    private var lastWasCrit = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBattleBinding.inflate(layoutInflater)
@@ -46,7 +49,6 @@ class BattleActivity : AppCompatActivity() {
         playerRobot = GameData.getRobotById(profile.selectedRobotId).copy()
         playerRobot.reset()
 
-        // Apply weapon bonus
         if (profile.equippedWeaponId >= 0) {
             val weapon = GameData.getWeaponById(profile.equippedWeaponId)
             playerRobot = playerRobot.copy(attack = playerRobot.attack + weapon.bonusDamage)
@@ -77,52 +79,74 @@ class BattleActivity : AppCompatActivity() {
     private fun startBattle() {
         val anim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
         binding.battleView.startAnimation(anim)
-        showToast("Battle Start! Fight!")
+        showToast("FIGHT!")
     }
 
+    // ── Combat math ─────────────────────────────────────────────────────────────
+
+    private fun isCritical() = Random.nextFloat() < 0.15f
+
+    private fun comboMultiplier(): Float = when {
+        comboCount >= 6 -> 2.0f
+        comboCount >= 4 -> 1.5f
+        comboCount >= 2 -> 1.25f
+        else -> 1.0f
+    }
+
+    private fun applyPlayerDamage(baseDmg: Int): Int {
+        val crit = isCritical()
+        lastWasCrit = crit
+        val combo = comboMultiplier()
+        val rawDmg = (baseDmg * combo * (if (crit) 2f else 1f) + Random.nextInt(-3, 6)).toInt()
+        return enemyRobot.takeDamage(rawDmg.coerceAtLeast(1))
+    }
+
+    // ── Player actions ───────────────────────────────────────────────────────────
+
     private fun performPlayerAttack() {
-        isAnimating = true
-        setButtonsEnabled(false)
+        isAnimating = true; setButtonsEnabled(false)
         app.soundManager.playAttack()
 
         binding.battleView.animatePlayerAttack {
-            val dmg = playerRobot.attack + Random.nextInt(-3, 6)
-            val actual = enemyRobot.takeDamage(dmg)
+            comboCount++
+            val actual = applyPlayerDamage(playerRobot.attack + Random.nextInt(-3, 6))
             showDamageNumber(actual, isPlayer = false)
             binding.battleView.animateEnemyHit()
             app.soundManager.vibrateShort()
+            if (lastWasCrit) showCritical()
+            updateComboDisplay()
         }
 
-        handler.postDelayed({
-            checkBattleState { enemyTurn() }
-        }, 700)
+        handler.postDelayed({ checkBattleState { enemyTurn() } }, 750)
     }
 
     private fun performPlayerSpecial() {
-        isAnimating = true
-        setButtonsEnabled(false)
+        isAnimating = true; setButtonsEnabled(false)
         app.soundManager.playSpecial()
         specialCooldown = playerRobot.specialPower.cooldownTurns
 
         val color = playerRobot.displayColor()
         binding.battleView.animateSpecialAttack(true, color) {
-            val dmg = playerRobot.specialPower.damage + Random.nextInt(-5, 10)
-            val actual = enemyRobot.takeDamage(dmg)
+            comboCount++
+            val base = playerRobot.specialPower.damage + Random.nextInt(-5, 10)
+            val actual = applyPlayerDamage(base)
             showDamageNumber(actual, isPlayer = false)
             app.soundManager.vibrateMedium()
             showToast("${playerRobot.specialPower.displayName}!")
+            if (lastWasCrit) showCritical()
+            updateComboDisplay()
         }
 
         handler.postDelayed({
             updateSpecialButton()
             checkBattleState { enemyTurn() }
-        }, 900)
+        }, 950)
     }
 
     private fun performPlayerBlock() {
-        isAnimating = true
-        setButtonsEnabled(false)
-        showToast("${playerRobot.name} blocks!")
+        isAnimating = true; setButtonsEnabled(false)
+        comboCount = 0; updateComboDisplay()
+        showToast("${playerRobot.name} braces for impact!")
         app.soundManager.playButton()
 
         handler.postDelayed({
@@ -132,57 +156,53 @@ class BattleActivity : AppCompatActivity() {
             showDamageNumber(reducedDmg, isPlayer = true)
             binding.battleView.animatePlayerHit()
             app.soundManager.vibrateShort()
-            handler.postDelayed({
-                checkBattleState { nextPlayerTurn() }
-            }, 500)
+            handler.postDelayed({ checkBattleState { nextPlayerTurn() } }, 500)
         }, 300)
     }
 
+    // ── Enemy actions ─────────────────────────────────────────────────────────
+
     private fun enemyTurn() {
         handler.postDelayed({
-            val action = Random.nextInt(3)
-            when {
-                action < 2 -> performEnemyAttack()
-                else -> performEnemySpecial()
-            }
-        }, 400)
+            if (Random.nextInt(3) < 2) performEnemyAttack() else performEnemySpecial()
+        }, 420)
     }
 
     private fun performEnemyAttack() {
-        showToast("${enemyRobot.name} attacks!")
+        showToast("${enemyRobot.name} strikes!")
         app.soundManager.playAttack()
 
         binding.battleView.animateEnemyAttack {
             val dmg = calculateEnemyDamage()
             val actual = playerRobot.takeDamage(dmg)
+            comboCount = 0; updateComboDisplay()
             showDamageNumber(actual, isPlayer = true)
             binding.battleView.animatePlayerHit()
             app.soundManager.vibrateShort()
         }
 
-        handler.postDelayed({
-            checkBattleState { nextPlayerTurn() }
-        }, 700)
+        handler.postDelayed({ checkBattleState { nextPlayerTurn() } }, 750)
     }
 
     private fun performEnemySpecial() {
-        showToast("${enemyRobot.name} uses ${enemyRobot.specialPower.displayName}!")
+        showToast("${enemyRobot.name}: ${enemyRobot.specialPower.displayName}!")
         app.soundManager.playSpecial()
 
         binding.battleView.animateSpecialAttack(false, enemyRobot.displayColor()) {
             val dmg = (enemyRobot.specialPower.damage * 0.85f).toInt() + Random.nextInt(-5, 5)
             val actual = playerRobot.takeDamage(dmg)
+            comboCount = 0; updateComboDisplay()
             showDamageNumber(actual, isPlayer = true)
             app.soundManager.vibrateMedium()
         }
 
-        handler.postDelayed({
-            checkBattleState { nextPlayerTurn() }
-        }, 900)
+        handler.postDelayed({ checkBattleState { nextPlayerTurn() } }, 950)
     }
 
     private fun calculateEnemyDamage(): Int =
-        (enemyRobot.attack * Random.nextFloat() * 0.4f + enemyRobot.attack * 0.8f).toInt()
+        (enemyRobot.attack * (0.8f + Random.nextFloat() * 0.4f)).toInt().coerceAtLeast(1)
+
+    // ── State management ─────────────────────────────────────────────────────
 
     private fun checkBattleState(onContinue: () -> Unit) {
         binding.battleView.invalidate()
@@ -196,14 +216,11 @@ class BattleActivity : AppCompatActivity() {
     private fun nextPlayerTurn() {
         turn++
         if (specialCooldown > 0) specialCooldown--
-        updateSpecialButton()
-        updateTurnLabel()
-        isAnimating = false
-        setButtonsEnabled(true)
-        // Slight heal for fun feel
+        updateSpecialButton(); updateTurnLabel()
+        isAnimating = false; setButtonsEnabled(true)
         if (turn % 5 == 0) {
             playerRobot.heal(8)
-            showToast("Energy restored! +8 HP")
+            showToast("+8 HP regenerated")
         }
     }
 
@@ -211,8 +228,7 @@ class BattleActivity : AppCompatActivity() {
         setButtonsEnabled(false)
         if (playerWon) {
             binding.battleView.animateVictory()
-            app.soundManager.playVictory()
-            app.soundManager.vibrateLong()
+            app.soundManager.playVictory(); app.soundManager.vibrateLong()
         } else {
             app.soundManager.playDefeat()
         }
@@ -222,18 +238,14 @@ class BattleActivity : AppCompatActivity() {
 
         app.currentProfile.apply {
             if (playerWon) {
-                battlesWon++
-                totalStars += stars
-                coins += coinsEarned
+                battlesWon++; totalStars += stars; coins += coinsEarned
                 if (currentLevel < levelId + 1) currentLevel = levelId + 1
-                // Unlock next robot if enough battles
                 if (battlesWon >= 2 && !unlockedRobotIds.contains(2)) unlockedRobotIds.add(2)
                 if (battlesWon >= 5 && !unlockedRobotIds.contains(3)) unlockedRobotIds.add(3)
                 if (battlesWon >= 8 && !unlockedRobotIds.contains(4)) unlockedRobotIds.add(4)
                 if (battlesWon >= 12 && !unlockedRobotIds.contains(5)) unlockedRobotIds.add(5)
             } else {
-                battlesLost++
-                coins += coinsEarned
+                battlesLost++; coins += coinsEarned
             }
         }
         app.saveProfile()
@@ -262,17 +274,38 @@ class BattleActivity : AppCompatActivity() {
         }
     }
 
+    // ── UI helpers ────────────────────────────────────────────────────────────
+
     private fun showDamageNumber(dmg: Int, isPlayer: Boolean) {
         val label = if (isPlayer) binding.tvPlayerDamage else binding.tvEnemyDamage
-        val prefix = if (isPlayer) "-" else "-"
-        label.text = "$prefix$dmg"
-        label.visibility = View.VISIBLE
-        label.alpha = 1f
-        label.animate().translationYBy(-60f).alpha(0f).setDuration(800).withEndAction {
-            label.visibility = View.INVISIBLE
-            label.translationY = 0f
-            label.alpha = 1f
+        label.text = "-$dmg"
+        label.visibility = View.VISIBLE; label.alpha = 1f; label.translationY = 0f
+        label.animate().translationYBy(-70f).alpha(0f).setDuration(900).withEndAction {
+            label.visibility = View.INVISIBLE; label.translationY = 0f; label.alpha = 1f
         }.start()
+    }
+
+    private fun showCritical() {
+        binding.tvCritical.visibility = View.VISIBLE
+        binding.tvCritical.alpha = 1f; binding.tvCritical.scaleX = 0.5f; binding.tvCritical.scaleY = 0.5f
+        binding.tvCritical.animate()
+            .scaleX(1.3f).scaleY(1.3f).setDuration(200)
+            .withEndAction {
+                binding.tvCritical.animate().alpha(0f).setDuration(600).withEndAction {
+                    binding.tvCritical.visibility = View.GONE
+                    binding.tvCritical.alpha = 1f
+                }.start()
+            }.start()
+    }
+
+    private fun updateComboDisplay() {
+        if (comboCount >= 2) {
+            val mult = comboMultiplier()
+            binding.tvCombo.text = "COMBO x$comboCount  (${mult}x DMG)"
+            binding.tvCombo.visibility = View.VISIBLE
+        } else {
+            binding.tvCombo.visibility = View.GONE
+        }
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
@@ -284,32 +317,23 @@ class BattleActivity : AppCompatActivity() {
     private fun updateSpecialButton() {
         if (specialCooldown == 0) {
             binding.btnSpecial.text = "SPECIAL!"
-            binding.btnSpecial.setBackgroundColor(Color.parseColor("#FF6F00"))
+            binding.btnSpecial.setBackgroundColor(Color.parseColor("#CC6600"))
         } else {
             binding.btnSpecial.text = "SPECIAL ($specialCooldown)"
-            binding.btnSpecial.setBackgroundColor(Color.parseColor("#555555"))
+            binding.btnSpecial.setBackgroundColor(Color.parseColor("#444444"))
         }
     }
 
-    private fun updateTurnLabel() {
-        binding.tvTurn.text = "Turn ${turn + 1}"
-    }
+    private fun updateTurnLabel() { binding.tvTurn.text = "Turn ${turn + 1}" }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
+    private fun showToast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
-    override fun onBackPressed() {
-        // Prevent accidental back press during battle
-        showToast("Finish the battle first! You can do it!")
-    }
+    override fun onBackPressed() { showToast("Finish the battle first!") }
 
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
     }
 
-    companion object {
-        const val EXTRA_LEVEL_ID = "level_id"
-    }
+    companion object { const val EXTRA_LEVEL_ID = "level_id" }
 }
